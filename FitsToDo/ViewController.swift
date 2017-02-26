@@ -23,8 +23,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        
-        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -59,41 +57,30 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let editAction = UITableViewRowAction(style: .normal, title: "Edit"){
             (rowAction, indexPath) in
-            //print("edit button tappes. row item value = \(self.itemsToLoad[indexPath.row])")
             self.displayEditView(indexPath: indexPath)
         }
         
         let deleteAction = UITableViewRowAction(style: .default, title: "Delete"){
             (rowAction, indexPath) in
-            //print("delete button tapped. row item value = \(self.itemsToLoad[indexPath.row])")
+            // delete specific items from database
+            let item = self.todoList[indexPath.row]
+            try! self.realm.write({
+                self.realm.delete(item)
+            })
+            tableView.deleteRows(at: [indexPath], with: .automatic)
         }
         
         editAction.backgroundColor = UIColor.lightGray
-        return[editAction, deleteAction]
+        return[deleteAction, editAction]
     }
     
     func displayEditView(indexPath: IndexPath){
         
     }
     
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        
-        if(editingStyle == .delete){
-            // delete specific items from database
-            let item = todoList[indexPath.row]
-            try! self.realm.write({
-                self.realm.delete(item)
-            })
-        }
-        
-        // update table view to delete specific row
-        tableView.deleteRows(at: [indexPath], with: .automatic)
-        
-    }
+//    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+//        return true
+//    }
     
     @IBAction func addNewPressed(_ sender: UIButton) {
         let alertController: UIAlertController = UIAlertController(title: "New To Do", message: "What task would you like to add?", preferredStyle: .alert)
