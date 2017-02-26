@@ -7,14 +7,124 @@
 //
 
 import UIKit
+import RealmSwift
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
+    @IBOutlet weak var tableView: UITableView!
+    let realm = try! Realm()
+    var todoList: Results<ToDoItem>{
+        get{
+            return realm.objects(ToDoItem.self)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        tableView.delegate = self
+        tableView.dataSource = self
+        
+        
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "taskCell", for: indexPath)
+        let item = todoList[indexPath.row]
+        cell.textLabel!.text = item.detail
+        cell.detailTextLabel!.text = String(item.status)
+        return cell
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
     }
 
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return todoList.count
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let item = todoList[indexPath.row]
+        try! self.realm.write({
+            if(item.status == 0){
+                item.status = 1
+            }else{
+                item.status = 0
+            }
+        })
+        
+        tableView.reloadRows(at: [indexPath], with: .automatic)
+    }
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let editAction = UITableViewRowAction(style: .normal, title: "Edit"){
+            (rowAction, indexPath) in
+            //print("edit button tappes. row item value = \(self.itemsToLoad[indexPath.row])")
+            self.displayEditView(indexPath: indexPath)
+        }
+        
+        let deleteAction = UITableViewRowAction(style: .default, title: "Delete"){
+            (rowAction, indexPath) in
+            //print("delete button tapped. row item value = \(self.itemsToLoad[indexPath.row])")
+        }
+        
+        editAction.backgroundColor = UIColor.lightGray
+        return[editAction, deleteAction]
+    }
+    
+    func displayEditView(indexPath: IndexPath){
+        
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        
+        if(editingStyle == .delete){
+            // delete specific items from database
+            let item = todoList[indexPath.row]
+            try! self.realm.write({
+                self.realm.delete(item)
+            })
+        }
+        
+        // update table view to delete specific row
+        tableView.deleteRows(at: [indexPath], with: .automatic)
+        
+    }
+    
+    @IBAction func addNewPressed(_ sender: UIButton) {
+        let alertController: UIAlertController = UIAlertController(title: "New To Do", message: "What task would you like to add?", preferredStyle: .alert)
+        
+        alertController.addTextField { (UITextField) in
+            
+        }
+     
+        let action_cancel = UIAlertAction.init(title: "Cancel", style: .cancel){(UIAlertAction) -> Void in}
+        
+        alertController.addAction(action_cancel)
+        
+        let action_add = UIAlertAction.init(title: "Add", style: .default){(UIAlertAction)-> Void in
+            let textField_todo = (alertController.textFields?.first)! as UITextField
+            print("You entered \(textField_todo.text)")
+            let todoItem = ToDoItem()
+            todoItem.detail = textField_todo.text!
+            todoItem.status = 0
+            
+            try! self.realm.write({
+                self.realm.add(todoItem)
+                self.tableView.insertRows(at: [IndexPath.init(row: self.todoList.count-1, section: 0)], with: .automatic)
+            })
+        }
+        
+        alertController.addAction(action_add)
+        present(alertController, animated: true, completion: nil)
+        
+    }
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

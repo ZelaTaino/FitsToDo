@@ -1,0 +1,6 @@
+framework module Pods_FitsToDo {
+  umbrella header "Pods-FitsToDo-umbrella.h"
+
+  export *
+  module * { export * }
+}
