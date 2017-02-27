@@ -11,4 +11,10 @@ import RealmSwift
 class ToDoItem: Object {
     dynamic var detail = ""
     dynamic var status = 0
+    dynamic var date = ""
+    enum priority{
+        case high
+        case meduim
+        case low
+    }
 }

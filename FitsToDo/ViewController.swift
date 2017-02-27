@@ -12,7 +12,10 @@ import RealmSwift
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var tableView: UITableView!
+    var editedRow = -1
+    // declare realm object
     let realm = try! Realm()
+    // get items in database
     var todoList: Results<ToDoItem>{
         get{
             return realm.objects(ToDoItem.self)
@@ -57,7 +60,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let editAction = UITableViewRowAction(style: .normal, title: "Edit"){
             (rowAction, indexPath) in
-            self.displayEditView(indexPath: indexPath)
+            self.editedRow = indexPath.row
+            self.performSegue(withIdentifier: "showEditTaskViewController", sender: nil)
         }
         
         let deleteAction = UITableViewRowAction(style: .default, title: "Delete"){
@@ -72,10 +76,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         editAction.backgroundColor = UIColor.lightGray
         return[deleteAction, editAction]
-    }
-    
-    func displayEditView(indexPath: IndexPath){
-        
     }
     
 //    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -109,6 +109,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         alertController.addAction(action_add)
         present(alertController, animated: true, completion: nil)
         
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showEditTaskViewController"{
+            let editTaskView = segue.destination as! EditTaskViewController
+            editTaskView.taskIndex = editedRow
+        }
     }
     
     
