@@ -101,57 +101,103 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Priority" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hAv-ox-Chm">
-                                <rect key="frame" x="16" y="163" width="55" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Priority" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hAv-ox-Chm">
+                                <rect key="frame" x="16" y="163" width="55" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1m6-TF-qVw">
-                                <rect key="frame" x="133" y="158" width="30" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="high"/>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IIz-dX-IhQ">
-                                <rect key="frame" x="199" y="158" width="55" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="medium"/>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IrO-8g-PvY">
-                                <rect key="frame" x="287" y="158" width="30" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="low"/>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Due Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iTc-Q9-pKI">
-                                <rect key="frame" x="16" y="228" width="72" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="X8J-Bn-0bZ">
+                                <rect key="frame" x="133" y="158" width="220" height="30"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1m6-TF-qVw">
+                                        <rect key="frame" x="0.0" y="0.0" width="55" height="30"/>
+                                        <state key="normal" title="high"/>
+                                        <connections>
+                                            <action selector="highPressed:" destination="d81-9m-mXD" eventType="touchUpInside" id="qRE-iq-ITo"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IIz-dX-IhQ">
+                                        <rect key="frame" x="55" y="0.0" width="55" height="30"/>
+                                        <state key="normal" title="medium"/>
+                                        <connections>
+                                            <action selector="mediumPressed:" destination="d81-9m-mXD" eventType="touchUpInside" id="6ou-55-2sg"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IrO-8g-PvY">
+                                        <rect key="frame" x="110" y="0.0" width="55" height="30"/>
+                                        <state key="normal" title="low"/>
+                                        <connections>
+                                            <action selector="lowPressed:" destination="d81-9m-mXD" eventType="touchUpInside" id="pr3-Nm-Ppv"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4iB-Dz-Eu7">
+                                        <rect key="frame" x="165" y="0.0" width="55" height="30"/>
+                                        <state key="normal" title="none"/>
+                                        <connections>
+                                            <action selector="nonePressed:" destination="d81-9m-mXD" eventType="touchUpInside" id="RKg-qK-9Gc"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Due Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iTc-Q9-pKI">
+                                <rect key="frame" x="16" y="228.5" width="72" height="20.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="72" id="ukq-qg-Cot"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="qVr-dA-YYH">
+                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="qVr-dA-YYH">
                                 <rect key="frame" x="0.0" y="257" width="375" height="216"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <date key="date" timeIntervalSinceReferenceDate="509839452.04288602">
                                     <!--2017-02-26 22:04:12 +0000-->
                                 </date>
                                 <connections>
-                                    <action selector="datePicker:" destination="d81-9m-mXD" eventType="valueChanged" id="Lpp-su-FMr"/>
+                                    <action selector="dateChanged:" destination="d81-9m-mXD" eventType="valueChanged" id="WBw-Jb-aZb"/>
                                 </connections>
                             </datePicker>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8bF-Td-ilX">
+                                <rect key="frame" x="304" y="223" width="51" height="31"/>
+                                <connections>
+                                    <action selector="dateSwitched:" destination="d81-9m-mXD" eventType="valueChanged" id="HmD-VB-KZs"/>
+                                </connections>
+                            </switch>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="iTc-Q9-pKI" firstAttribute="centerY" secondItem="8bF-Td-ilX" secondAttribute="centerY" id="1pr-qS-ear"/>
+                            <constraint firstItem="8bF-Td-ilX" firstAttribute="top" secondItem="4iB-Dz-Eu7" secondAttribute="bottom" constant="35" id="1w4-zL-Ubz"/>
                             <constraint firstItem="xbs-8w-Woq" firstAttribute="trailing" secondItem="dAk-KZ-L5E" secondAttribute="trailingMargin" id="Ait-K6-nii"/>
                             <constraint firstItem="xbs-8w-Woq" firstAttribute="leading" secondItem="dAk-KZ-L5E" secondAttribute="leadingMargin" id="FsA-qv-fXx"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="hAv-ox-Chm" secondAttribute="leading" id="KfI-PD-dYa"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="8bF-Td-ilX" secondAttribute="trailing" constant="6" id="O5f-6b-R63"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="iTc-Q9-pKI" secondAttribute="leading" id="PsR-R9-lA5"/>
+                            <constraint firstItem="Gq9-Re-Fah" firstAttribute="top" secondItem="qVr-dA-YYH" secondAttribute="bottom" constant="194" id="Sus-Rq-DlY"/>
+                            <constraint firstItem="qVr-dA-YYH" firstAttribute="leading" secondItem="dAk-KZ-L5E" secondAttribute="leading" id="m5f-25-Sab"/>
                             <constraint firstItem="xbs-8w-Woq" firstAttribute="top" secondItem="bXn-Gh-eDU" secondAttribute="bottom" constant="53" id="pcA-k1-wOM"/>
+                            <constraint firstItem="qVr-dA-YYH" firstAttribute="top" secondItem="8bF-Td-ilX" secondAttribute="bottom" constant="3" id="tJw-55-HJ3"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="X8J-Bn-0bZ" secondAttribute="trailing" constant="6" id="x5d-du-rgZ"/>
+                            <constraint firstItem="X8J-Bn-0bZ" firstAttribute="centerY" secondItem="hAv-ox-Chm" secondAttribute="centerY" id="yXp-Je-HoR"/>
+                            <constraint firstAttribute="trailing" secondItem="qVr-dA-YYH" secondAttribute="trailing" id="z7N-4e-GKx"/>
+                            <constraint firstItem="hAv-ox-Chm" firstAttribute="top" secondItem="xbs-8w-Woq" secondAttribute="bottom" constant="16" id="zYx-bL-dcP"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="skn-hC-GXy">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="3vR-2p-K4F"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="3vR-2p-K4F">
+                            <connections>
+                                <action selector="donePressed:" destination="d81-9m-mXD" id="hTc-8N-kmD"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="datePicker" destination="qVr-dA-YYH" id="P1K-Y0-f3y"/>
+                        <outlet property="hasDateSwitch" destination="8bF-Td-ilX" id="HFA-t8-iSY"/>
+                        <outlet property="highPriority" destination="1m6-TF-qVw" id="ctB-pe-Pws"/>
+                        <outlet property="lowPriority" destination="IrO-8g-PvY" id="Etv-c0-vIt"/>
+                        <outlet property="mediumPriority" destination="IIz-dX-IhQ" id="N67-wZ-6PQ"/>
+                        <outlet property="noPriority" destination="4iB-Dz-Eu7" id="Fji-HP-hhL"/>
                         <outlet property="titleTextField" destination="xbs-8w-Woq" id="yGP-E6-jw4"/>
                     </connections>
                 </viewController>

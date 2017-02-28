@@ -12,7 +12,7 @@ import RealmSwift
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var tableView: UITableView!
-    var editedRow = -1
+//    var editedRow = -1
     // declare realm object
     let realm = try! Realm()
     // get items in database
@@ -20,6 +20,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         get{
             return realm.objects(ToDoItem.self)
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        tableView.reloadData()
     }
     
     override func viewDidLoad() {
@@ -60,12 +64,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let editAction = UITableViewRowAction(style: .normal, title: "Edit"){
             (rowAction, indexPath) in
-            self.editedRow = indexPath.row
-            self.performSegue(withIdentifier: "showEditTaskViewController", sender: nil)
+//            self.editedRow = indexPath.row
+            self.performSegue(withIdentifier: "showEditTaskViewController", sender: indexPath.row)
         }
         
         let deleteAction = UITableViewRowAction(style: .default, title: "Delete"){
-            (rowAction, indexPath) in
+            (rowAction, datindexPath) in
             // delete specific items from database
             let item = self.todoList[indexPath.row]
             try! self.realm.write({
@@ -77,10 +81,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         editAction.backgroundColor = UIColor.lightGray
         return[deleteAction, editAction]
     }
-    
-//    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-//        return true
-//    }
     
     @IBAction func addNewPressed(_ sender: UIButton) {
         let alertController: UIAlertController = UIAlertController(title: "New To Do", message: "What task would you like to add?", preferredStyle: .alert)
@@ -112,9 +112,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showEditTaskViewController"{
-            let editTaskView = segue.destination as! EditTaskViewController
-            editTaskView.taskIndex = editedRow
+        if(segue.identifier == "showEditTaskViewController"){
+            let navController = segue.destination as! UINavigationController
+            let editTaskView = navController.topViewController as! EditTaskViewController
+            editTaskView.taskIndex = sender as! Int
+
         }
     }
     

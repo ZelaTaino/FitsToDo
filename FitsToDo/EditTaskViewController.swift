@@ -10,7 +10,17 @@ import UIKit
 import RealmSwift
 
 class EditTaskViewController: UIViewController {
+    @IBOutlet weak var datePicker: UIDatePicker!
     @IBOutlet weak var titleTextField: UITextField!
+    @IBOutlet weak var hasDateSwitch: UISwitch!
+    @IBOutlet weak var highPriority: UIButton!
+    @IBOutlet weak var mediumPriority: UIButton!
+    @IBOutlet weak var lowPriority: UIButton!
+    @IBOutlet weak var noPriority: UIButton!
+    var hasDueDate = false
+    var date = ""
+    var priorityVal = 0
+    var item = ToDoItem()
     var taskIndex = -1
     let realm = try! Realm()
     var todoList: Results<ToDoItem>{
@@ -21,14 +31,82 @@ class EditTaskViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let item = todoList[taskIndex]
+        item = todoList[taskIndex]
+        
         titleTextField.text = item.detail
+        datePicker.isHidden = !item.hasDueDate
+        hasDateSwitch.isOn = item.hasDueDate
+        
+        hasDueDate = item.hasDueDate
+        date = item.date
+        priorityVal = item.priorityVal
+        
+        switch item.priorityVal.hashValue {
+        case ToDoItem.priority.high.hashValue:
+            highPriority.isSelected = true
+        case ToDoItem.priority.medium.hashValue:
+            mediumPriority.isSelected = true
+        case ToDoItem.priority.low.hashValue:
+            lowPriority.isSelected = true
+        default:
+            noPriority.isSelected = true
+        }
     }
+    
+    @IBAction func highPressed(_ sender: UIButton) {
+        selectPriority(button: sender)
+        priorityVal = ToDoItem.priority.high.hashValue
+    }
+    
+    @IBAction func mediumPressed(_ sender: UIButton) {
+        selectPriority(button: sender)
+        priorityVal = ToDoItem.priority.medium.hashValue
+    }
+    
+    @IBAction func lowPressed(_ sender: UIButton) {
+        selectPriority(button: sender)
+        priorityVal = ToDoItem.priority.low.hashValue
+    }
+    
+    @IBAction func nonePressed(_ sender: UIButton) {
+        selectPriority(button: sender)
+        priorityVal = ToDoItem.priority.none.hashValue
+    }
+    
+    func selectPriority(button: UIButton){
+        highPriority.isSelected = false
+        mediumPriority.isSelected = false
+        lowPriority.isSelected = false
+        noPriority.isSelected = false
+        
+        button.isSelected = true
+    }
+    
 
-    @IBAction func datePicker(_ sender: UIDatePicker) {
-        
-        
-        
+    @IBAction func dateSwitched(_ sender: UISwitch) {
+        hasDueDate = sender.isOn
+        datePicker.isHidden = !sender.isOn
+    }
+    
+    @IBAction func dateChanged(_ sender: UIDatePicker) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM d"
+        let dateString = dateFormatter.string(from: sender.date)
+        date = dateString
+    }
+    
+    @IBAction func donePressed(_ sender: Any) {
+        try! self.realm.write {
+            item.detail = titleTextField.text!
+            item.hasDueDate = hasDueDate
+            item.date = date
+            item.priorityVal = priorityVal
+        }
+        print("title: \(item.detail)")
+        print("hasDate: \(item.hasDueDate)")
+        print("date: \(item.date)")
+        print("priority value: \(item.priorityVal)")
+        self.dismiss(animated: true, completion: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -36,6 +114,8 @@ class EditTaskViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+
+
 
     /*
     // MARK: - Navigation
